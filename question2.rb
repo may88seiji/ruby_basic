@@ -1,8 +1,15 @@
 def get_days(year, month)
     month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    if month == 2 # 2月のとき
-      # 閏年のときはdaysに29を代入
-      # それ以外はdaysに28を代入
+    if month == 2
+      if year % 4 == 0                         # 年が4で割り切れること
+        if year % 100 == 0 && year % 400 != 0  # 年が100で割り切れて400で割り切れない場合
+          days = 28 # 閏年でない
+        else
+          days = 29 # 閏年
+        end
+      else
+        days = 28   # 閏年でない
+      end
     else
       days = month_days[month - 1]
     end
@@ -17,3 +24,12 @@ def get_days(year, month)
 
   days = get_days(year, month)
   puts "#{year}年#{month}月は#{days}日間あります"
+
+
+  require "date"
+
+  date = Date.new(2000) # => 2000年を表すDateクラスのインスタンス
+  puts date.leap?       # => 閏年なのでtrueが返ってくる
+
+  date = Date.new(2001) # => 2001年を表すDateクラスのインスタンス
+  puts date.leap?       # => 閏年ではないのでfalseが返ってくる
